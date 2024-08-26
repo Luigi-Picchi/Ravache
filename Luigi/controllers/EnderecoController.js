@@ -4,17 +4,17 @@ const axios = require('axios');
 // Criação de um novo endereço
 exports.createEndereco = async (req, res) => {
     try {
-        const { Cep, Logradouro, Numero, Complemento, Bairro, Cidade, Estado, MunicipioIGBE } = req.body;
+        const { CEP, Logradouro, Numero, Complemento, Bairro, Cidade, Estado, MunicipioIBGE } = req.body;
 
         const novoEndereco = await Endereco.create({
-            Cep,
+            CEP,
             Logradouro,
             Numero,
             Complemento,
             Bairro,
             Cidade,
             Estado,
-            MunicipioIGBE,
+            MunicipioIBGE,
         });
 
         res.status(201).json(novoEndereco);
@@ -52,7 +52,7 @@ exports.getEnderecoById = async (req, res) => {
 exports.updateEndereco = async (req, res) => {
     try {
         const { Id } = req.params;
-        const { Cep, Logradouro, Numero, Complemento, Bairro, Cidade, Estado, MunicipioIGBE } = req.body;
+        const { CEP, Logradouro, Numero, Complemento, Bairro, Cidade, Estado, MunicipioIBGE } = req.body;
 
         const endereco = await Endereco.findByPk(Id);
 
@@ -60,14 +60,14 @@ exports.updateEndereco = async (req, res) => {
             return res.status(404).json({ error: 'Endereço não encontrado' });
         }
 
-        endereco.Cep = Cep;
+        endereco.CEP = CEP;
         endereco.Logradouro = Logradouro;
         endereco.Numero = Numero;
         endereco.Complemento = Complemento;
         endereco.Bairro = Bairro;
         endereco.Cidade = Cidade;
         endereco.Estado = Estado;
-        endereco.MunicipioIGBE = MunicipioIGBE;
+        endereco.MunicipioIBGE = MunicipioIBGE;
 
         await endereco.save();
         res.status(200).json(endereco);
@@ -107,24 +107,24 @@ exports.createEnderecoFromCep = async (req, res) => {
         }
 
         const {
-            cep: Cep,
+            cep: CEP,
             logradouro: Logradouro,
             complemento: Complemento,
             bairro: Bairro,
             localidade: Cidade,
             uf: Estado,
-            ibge: MunicipioIGBE
+            ibge: MunicipioIBGE
         } = response.data;
 
         // Criação de um novo endereço no banco
         const novoEndereco = await Endereco.create({
-            Cep,
+            CEP,
             Logradouro,
             Complemento,
             Bairro,
             Cidade,
             Estado,
-            MunicipioIGBE
+            MunicipioIBGE
         });
 
         res.status(201).json(novoEndereco);
